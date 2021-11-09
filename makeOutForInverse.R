@@ -1,4 +1,4 @@
-if (!is.list(df)) {
+if (length(ls()) == 0) {
   source("main-readFiles.R")
 }
 
