@@ -27,15 +27,15 @@ out <- sapply(1:(length(df$TIME) / step - 1),
 )
 
 out <- as.data.frame(t(out))
-colnames(out) <- c('TIME', 'POSITION', 'A_RHO_S1', 'dA_RHO_S1', 'A_RHO_S2', 'dA_RHO_S2')
+colnames(out) <- c('TIME', 'POSITION', 'RHO_S1', 'RHO_S1_DIFF', 'RHO_S2', 'RHO_S2_DIFF')
 
 par(mfrow = c(3, 1), mar = c(2, 5, 2, 1), cex = 1.0, family = 'mono', las = 1, tck = 1)
 
 plot(df$TIME, df$APPARENT_06_18_RHO, type = 'l', xlab = 'Time, s', ylab = expression(bold(rho ~ " 6 x 18 mm")))
-lines(out$TIME, out$A_RHO_S1, type = 'b', lty = 'blank', col = 'red')
+lines(out$TIME, out$RHO_S1, type = 'b', lty = 'blank', col = 'red')
 
 plot(df$TIME, df$APPARENT_30_18_RHO, type = 'l', xlab = 'Time, s', ylab = expression(bold(rho ~ " 30 x 18 mm")))
-lines(out$TIME, out$A_RHO_S2, type = 'b', lty = 'blank', col = 'orange')
+lines(out$TIME, out$RHO_S2, type = 'b', lty = 'blank', col = 'orange')
 
 plot(df$TIME, df$POSITION, type = 'l', xlab = 'Time, s', ylab = 'POSITION')
 lines(out$TIME, out$POSITION, type = 'b', lty = 'blank', col = 'blue')
