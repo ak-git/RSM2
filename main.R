@@ -3,7 +3,13 @@ if (length(ls()) == 0) {
 }
 
 par(mfrow = c(3, 1), mar = c(2, 5, 2, 1), cex = 1.0, family = 'mono', las = 1, tck = 1)
+plot(out$TIME, out$A_RHO_1, lty = 'blank', type = 'b', xlab = 'Time, s', ylab = expression(bold(rho[a] ~ " 6 x 18 mm")), col = 'red')
+plot(out$TIME, out$A_RHO_2, lty = 'blank', type = 'b', xlab = 'Time, s', ylab = expression(bold(rho[a] ~ " 30 x 18 mm")), col = 'orange')
+plot(out$TIME, out$POSITION, lty = 'blank', type = 'b', xlab = 'Time, s', ylab = 'Indentation')
 
-plot(df$TIME, df$APPARENT_RHO_06_18, type = 'l', xlab = 'Time, s', ylab = expression(bold(rho[a] ~ " 6 x 18 mm")), col = 'red')
-plot(df$TIME, df$APPARENT_RHO_30_18, type = 'l', xlab = 'Time, s', ylab = expression(bold(rho[a] ~ " 30 x 18 mm")), col = 'orange')
-plot(df$TIME, df$POSITION, type = 'l', xlab = 'Time, s', ylab = 'Indentation')
+par(mfrow = c(5, 1), mar = c(2, 6, 2, 1), cex = 1.0, family = 'mono', las = 1, tck = 1)
+plot(out$TIME, out$A_RHO_1, lty = 'solid', type = 'l', xlab = 'Time, s', ylab = expression(bold(rho ~ " 6 x 18 mm")), col = 'red')
+plot(out$TIME, out$dA_RHO_1, lty = 'solid', type = 'l', xlab = 'Time, s', ylab = expression(bold(frac(partialdiff ~ rho, partialdiff ~ phi) ~ " 6 x 18 mm")), col = 'orange')
+plot(out$TIME, out$A_RHO_2, lty = 'solid', type = 'l', xlab = 'Time, s', ylab = expression(bold(rho ~ " 30 x 18 mm")), col = 'red')
+plot(out$TIME, out$dA_RHO_2, lty = 'solid', type = 'l', xlab = 'Time, s', ylab = expression(bold(frac(partialdiff ~ rho, partialdiff ~ phi) ~ " 30 x 18 mm")), col = 'orange')
+plot(df$TIME, df$POSITION, lty = 'solid', type = 'l', xlab = 'Time, s', ylab = 'Indentation')
