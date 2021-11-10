@@ -1,8 +1,9 @@
+# max - 385 sec
 outFile <- "2021-10-25 17-23-43.csv"
-aper <- read.csv("2021-10-25 17-23-43 246 aper.csv");
-plog <- read.csv("2021-10-25 17-23-43 256 PureLogic.csv")
-
-df <- merge(aper, plog)[(220 * 1000 + 1):(292 * 1000),]
+interval <- (220 * 1000 + 1):(292 * 1000)
+aper <- read.csv("2021-10-25 17-23-43 246 aper.csv")[interval,]
+plog <- read.csv("2021-10-25 17-23-43 256 PureLogic.csv")[interval,]
+df <- merge(aper, plog)
 
 step <- 500
 out <- sapply(1:(length(df$TIME) / step - 1),
@@ -26,6 +27,7 @@ out <- sapply(1:(length(df$TIME) / step - 1),
 )
 
 out <- as.data.frame(t(out))
+out <- out[seq_len(nrow(out)) %% 2 == 1,]
 colnames(out) <- c('TIME', 'POSITION', 'A_RHO_S1', 'dA_RHO_S1', 'A_RHO_S2', 'dA_RHO_S2')
 
 par(mfrow = c(3, 1), mar = c(2, 5, 2, 1), cex = 1.0, family = 'mono', las = 1, tck = 1)
