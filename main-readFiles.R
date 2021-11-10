@@ -13,29 +13,28 @@ out <- sapply(1:(length(df$TIME) / step - 1),
                 interval <- (x * step - 4 * step / 10 + 1):(x * step - step / 10 + 1)
                 intervalNext <- interval + step
 
-                mR1 <- mean(df$APPARENT_06_18_RHO[interval])
-                mR1_ <- mean(df$APPARENT_06_18_RHO[intervalNext])
-                mR2 <- mean(df$APPARENT_30_18_RHO[interval])
-                mR2_ <- mean(df$APPARENT_30_18_RHO[intervalNext])
+                aRhoS1 <- mean(df$APPARENT_06_18_RHO[interval])
+                aRhoS1_ <- mean(df$APPARENT_06_18_RHO[intervalNext])
+                aRhoS2 <- mean(df$APPARENT_30_18_RHO[interval])
+                aRhoS2_ <- mean(df$APPARENT_30_18_RHO[intervalNext])
 
-                c(df$TIME[center],
-                  mR1, (mR1_ - mR1) / (dhmm / 18.0),
-                  mR2, (mR2_ - mR2) / (dhmm / 18.0),
-                  df$POSITION[center]
+                c(df$TIME[center], df$POSITION[center],
+                  mean(c(aRhoS1, aRhoS1_)), (aRhoS1_ - aRhoS1) / (dhmm / 18.0),
+                  mean(c(aRhoS2, aRhoS2_)), (aRhoS2_ - aRhoS2) / (dhmm / 18.0)
                 )
               }
 )
 
 out <- as.data.frame(t(out))
-colnames(out) <- c('TIME', 'A_RHO_1', 'dA_RHO_1', 'A_RHO_2', 'dA_RHO_2', 'POSITION')
+colnames(out) <- c('TIME', 'POSITION', 'A_RHO_S1', 'dA_RHO_S1', 'A_RHO_S2', 'dA_RHO_S2')
 
 par(mfrow = c(3, 1), mar = c(2, 5, 2, 1), cex = 1.0, family = 'mono', las = 1, tck = 1)
 
-plot(df$TIME, df$APPARENT_06_18_RHO, type = 'l', xlab = 'Time, s', ylab = expression(bold(rho[a] ~ " 6 x 18 mm")))
-lines(out$TIME, out$A_RHO_1, type = 'b', lty = 'blank', col = 'red')
+plot(df$TIME, df$APPARENT_06_18_RHO, type = 'l', xlab = 'Time, s', ylab = expression(bold(rho ~ " 6 x 18 mm")))
+lines(out$TIME, out$A_RHO_S1, type = 'b', lty = 'blank', col = 'red')
 
-plot(df$TIME, df$APPARENT_30_18_RHO, type = 'l', xlab = 'Time, s', ylab = expression(bold(rho[a] ~ " 30 x 18 mm")))
-lines(out$TIME, out$A_RHO_2, type = 'b', lty = 'blank', col = 'orange')
+plot(df$TIME, df$APPARENT_30_18_RHO, type = 'l', xlab = 'Time, s', ylab = expression(bold(rho ~ " 30 x 18 mm")))
+lines(out$TIME, out$A_RHO_S2, type = 'b', lty = 'blank', col = 'orange')
 
 plot(df$TIME, df$POSITION, type = 'l', xlab = 'Time, s', ylab = 'POSITION')
 lines(out$TIME, out$POSITION, type = 'b', lty = 'blank', col = 'blue')
