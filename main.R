@@ -30,7 +30,6 @@ lines(out$TIME, smthA_RHO_S2_DIFF, col = "black", lty = "solid", lwd = 2)
 
 plot(df$TIME, df$POSITION, lty = 'solid', type = 'l', xlab = 'Time, s', ylab = 'Indentation')
 
-out_file <- data.frame(out$TIME, out$POSITION, smthA_RHO_S1, smthA_RHO_S1_DIFF, smthA_RHO_S2, smthA_RHO_S2_DIFF)
-out_file <- na.omit(out_file)
+out_file <- na.omit(data.frame(out$TIME, out$POSITION, smthA_RHO_S1, smthA_RHO_S1_DIFF, smthA_RHO_S2, smthA_RHO_S2_DIFF))
 colnames(out_file) <- c('TIME', 'POSITION', 'A_RHO_S1', 'dA_RHO_S1', 'A_RHO_S2', 'dA_RHO_S2')
 write.csv(out_file, file = outFile, row.names = FALSE)
