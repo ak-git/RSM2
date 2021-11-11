@@ -9,7 +9,7 @@ plot(out$TIME, out$POSITION, lty = 'blank', type = 'b', xlab = 'Time, s', ylab =
 
 
 library("smoother")
-window <- 10 / (out$TIME[length(out$TIME)] - out$TIME[1]) # 7 sec smoothing
+window <- 10 / (out$TIME[length(out$TIME)] - out$TIME[1]) # 10 sec smoothing
 par(mfrow = c(5, 1), mar = c(2, 6, 2, 1), cex = 1.0, family = 'mono', las = 1, tck = 1)
 
 plot(out$TIME, out$RHO_S1, lty = 'solid', type = 'l', xlab = 'Time, s', ylab = expression(bold(rho ~ " 6 x 18 mm")), col = 'red')
