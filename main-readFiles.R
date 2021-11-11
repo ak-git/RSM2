@@ -1,5 +1,5 @@
 # max - 390 sec, 220-292
-outFile <- "2021-10-25 17-23-43 6mm.csv"
+outFile <- "2021-10-25 17-23-43 6 mm.csv"
 interval <- (0 * 1000 + 1):(390 * 1000)
 aper <- read.csv("2021-10-25 17-23-43 246 aper.csv")[interval,]
 plog <- read.csv("2021-10-25 17-23-43 256 PureLogic.csv")[interval,]
