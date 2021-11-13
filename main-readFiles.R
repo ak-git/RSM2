@@ -1,8 +1,8 @@
-# max - 1 146 sec
-outFile <- "2021-05-12 19-03-11 7 mm.csv"
-interval <- (0 * 1000 + 1):(1143 * 1000)
-aper <- read.csv("2021-05-12 19-03-11 aper.csv")[interval,]
-plog <- read.csv("2021-05-12 19-03-11 PureLogic.csv")[interval,]
+# max - 125 sec
+outFile <- "2021-04-12 20-08-08 7 mm.csv"
+interval <- (0 * 1000 + 1):(125 * 1000)
+aper <- read.csv("2021-04-12 20-08-08 aper.csv")[interval,]
+plog <- read.csv("2021-04-12 20-08-08 PureLogic.csv")[interval,]
 df <- merge(aper, plog)
 
 step <- 500
