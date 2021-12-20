@@ -1,6 +1,6 @@
 # max - 630 sec
 sTime <- 190
-eTime <- 190 + 45
+eTime <- sTime + 45
 interval <- (sTime * 1000 + 1):(eTime * 1000)
 aper <- read.csv("2021-10-22 18-57-26 754 aper.csv")[interval,]
 plog <- read.csv("2021-10-22 18-57-26 755 PureLogic.csv")[interval,]
