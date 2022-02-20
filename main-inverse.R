@@ -5,7 +5,7 @@ df <- data.frame(df$TIME, df$R1, df$R2, df$POSITION)
 colnames(df) <- c('TIME', 'R1', 'R2', 'POSITION')
 
 inv <- eval(parse(text = ls(pattern = "inverse$")))
-inv <- inv[inv$RMS_DIFF < 0.2 & inv$rho1 < 10 & inv$rho2 > 2, ]
+inv <- inv[inv$rho1 > 10 * inv$rho1AbsError & inv$rho2 > 10 * inv$rho2AbsError & inv$h > 10 * inv$hAbsError, ]
 xlim <- c(min(na.omit(inv$TIME)), max(na.omit(inv$TIME)))
 # Графики исходных сигналов
 par(mfrow = c(6, 1), mar = c(2, 5, 2, 1), cex = 1.0, family = 'mono', las = 1, tck = 1)
