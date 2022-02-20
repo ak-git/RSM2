@@ -118,7 +118,7 @@ plot(df$TIME, df$POSITION, type = 'l', xlab = 'Time, s', col = 'blue', lwd = 2, 
 lines(outA$TIME, outA$POSITION, type = 'b', lty = 'blank', col = 'black')
 
 library("smoother")
-window <- 10 / (outA$TIME[length(outA$TIME)] - outA$TIME[1]) # 10 sec smoothing
+window <- 4 / (outA$TIME[length(outA$TIME)] - outA$TIME[1]) # 4 sec smoothing
 smthA1 <- smth(outA$A1, window = window, method = "gaussian")
 smthA2 <- smth(outA$A2, window = window, method = "gaussian")
 smthDA1 <- smth(outA$DA1, window = window, method = "gaussian")
