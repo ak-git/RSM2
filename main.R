@@ -1,5 +1,5 @@
-mmBase <- 7
-interval <- (0 * 1000 + 1):(120 * 1000)
+mmBase <- 6
+interval <- (215 * 1000 + 1):(375 * 1000)
 df <- merge(eval(parse(text = ls(pattern = "aper$"))), eval(parse(text = ls(pattern = "PureLogic$"))))[interval,]
 df <- data.frame(df$TIME, df$R1, df$R2, df$POSITION)
 colnames(df) <- c('TIME', 'R1', 'R2', 'POSITION')
