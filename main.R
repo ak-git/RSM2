@@ -85,4 +85,4 @@ colnames(pointsDiffR) <- c('TIME', 'POSITION', 'dR1', 'dR2')
 
 mean(splineR1Line$y)
 mean(splineR2Line$y)
-aggregate(pointsDiffR, by=list(pointsDiffR$POSITION), FUN = mean)
+aggregate(pointsDiffR, by = list(pointsDiffR$POSITION), FUN = mean)
