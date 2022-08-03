@@ -14,7 +14,7 @@ pureLogic2 <- sapply(1:(length(pureLogic$TIME)),
 pureLogic2 <- as.data.frame(t(pureLogic2))
 colnames(pureLogic2) <- c('TIME', 'POSITION')
 
-aperMillis <- 50501 - 33450
+aperMillis <- 75422 - 48992
 aper2 <- sapply(1:(length(aper$TIME)),
                 function(x) {
                   c(x + aperMillis, aper$R1[x], aper$R2[x], aper$CCR[x])
@@ -23,7 +23,7 @@ aper2 <- sapply(1:(length(aper$TIME)),
 aper2 <- as.data.frame(t(aper2))
 colnames(aper2) <- c('TIME', 'R1', 'R2', 'CCR')
 
-brikoStandMillis <- 65508 - 33450
+brikoStandMillis <- 90072 - 48992
 brikoStand2 <- sapply(1:(length(brikoStand$TIME)),
                       function(x) {
                         c(x + brikoStandMillis, brikoStand$C[x])
@@ -39,6 +39,9 @@ df2 <- sapply(1:(length(df$TIME)),
               }
 )
 df <- as.data.frame(t(df2))
+tail(df)
+interval <- (560 * 1000 + 1):(708 * 1000)
+df <- df[interval,]
 colnames(df) <- c('TIME', 'POSITION', 'R1', 'R2', 'CCR', 'PRESSURE')
 
 par(mfrow = c(4, 1), mar = c(2, 5, 2, 1), cex = 1.0, family = 'mono', las = 1, tck = 1)
