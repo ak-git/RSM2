@@ -1,8 +1,6 @@
-mmBase <- 7
-interval <- (79 * 1000 + 1):(104 * 1000)
-df <- merge(read.csv(list.files(pattern = "aper.csv$")), read.csv(list.files(pattern = "PureLogic.csv$")))[interval,]
-df <- data.frame(df$TIME, df$R1, df$R2, df$POSITION)
-colnames(df) <- c('TIME', 'R1', 'R2', 'POSITION')
+mmBase <- 8
+interval <- (180 * 1000 + 1):(195 * 1000)
+df <- read.csv(list.files(pattern = ".csv$"))[interval,]
 
 # Графики исходных сигналов
 par(mfrow = c(3, 1), mar = c(2, 5, 2, 1), cex = 1.0, family = 'mono', las = 1, tck = 1)
@@ -12,7 +10,7 @@ plot(df$TIME, df$POSITION, type = 'l', xlab = 'Time, s', col = 'blue', lwd = 2, 
 
 step <- 2000
 step2 <- 1000
-centerShift <- 150
+centerShift <- 0
 splinePosition <- sapply(0:(length(df$TIME) / step),
                          function(x) {
                            center <- x * step + step2 / 2 + 1
