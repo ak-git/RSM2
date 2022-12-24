@@ -28,11 +28,7 @@ col <- hue_pal()(3)
 lty <- c(1, 5)
 plot(inv$TIME, inv$rho1, ylim = ylim, type = 'l', xlab = xlab, ylab = expression(bold(rho)), col = col[1], lwd = 2, lty = lty[1])
 lines(inv$TIME, inv$rho2, type = 'l', xlab = xlab, ylab = expression(bold(rho[2])), col = col[2], lwd = 2, lty = lty[2])
-legend("topright",
-       legend = c(
-         expression(bold(rho[1])),
-         expression(bold(rho[2]))
-       ),
-       lty = c(1, 5), lwd = c(2, 2), col = col, horiz = T
+legend("topright", legend = c(expression(bold(rho[1])), expression(bold(rho[2]))),
+       lty = lty, lwd = c(2, 2), col = col, horiz = F, cex = 0.7
 )
 plot(inv$TIME, inv$h, type = 'l', xlab = xlab, ylab = 'h', col = col[3], lwd = 2)
