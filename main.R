@@ -1,34 +1,36 @@
+library('scales')
 mmBase <- 6
 interval <- (185 * 1000 + 1):(240 * 1000)
-df <- merge(eval(parse(text = ls(pattern = "aper$"))), eval(parse(text = ls(pattern = "PureLogic$"))))[interval,]
-df <- data.frame(df$TIME, df$R1, df$R2, df$POSITION)
-colnames(df) <- c('TIME', 'R1', 'R2', 'POSITION')
+
+source(file = 'read.R')
 
 # Графики исходных сигналов
 par(mfrow = c(3, 1), mar = c(2, 5, 2, 1), cex = 1.0, family = 'mono', las = 1, tck = 1)
-plot(df$TIME, df$R1, type = 'l', xlab = 'Time, s', col = 'red', lwd = 2, ylab = substitute(bold(R[s ~ x ~ L ~ mm] ~ ~Omega), list(s = mmBase, L = mmBase * 3)))
-plot(df$TIME, df$R2, type = 'l', xlab = 'Time, s', col = 'orange', lwd = 2, ylab = substitute(bold(R[s ~ x ~ L ~ mm] ~ ~Omega), list(s = mmBase * 5, L = mmBase * 3)))
-plot(df$TIME, df$POSITION, type = 'l', xlab = 'Time, s', col = 'blue', lwd = 2, ylab = 'POSITION, mm')
+col <- hue_pal()(3)
+plot(df$TIME, df$R1, type = 'l', xlab = 'Time, s', col = col[1], lwd = 2, ylab = substitute(bold(R[s ~ x ~ L ~ mm] ~ ~Omega), list(s = mmBase, L = mmBase * 3)))
+plot(df$TIME, df$R2, type = 'l', xlab = 'Time, s', col = col[2], lwd = 2, ylab = substitute(bold(R[s ~ x ~ L ~ mm] ~ ~Omega), list(s = mmBase * 5, L = mmBase * 3)))
+plot(df$TIME, df$POSITION, type = 'l', xlab = 'Time, s', col = col[3], lwd = 2, ylab = 'POSITION, mm')
 
 mmToSI <- function(mm) {
-  return(mm / 1000.0);
+  return(mm / 1000.0)
 }
 
 layer1Inverse <- function(smm, lmm, ohms) {
-  mmToSI(smm) -> s;
-  mmToSI(lmm) -> l;
+  mmToSI(smm) -> s
+  mmToSI(lmm) -> l
 
-  (ohms * pi) / (2.0 / abs(l - s) - 2.0 / (l + s)) -> rho;
-  return(rho);
+  (ohms * pi) / (2.0 / abs(l - s) - 2.0 / (l + s)) -> rho
+  return(rho)
 }
 
 df$A1 <- layer1Inverse(mmBase, mmBase * 3.0, df$R1)
 df$A2 <- layer1Inverse(mmBase * 5.0, mmBase * 3.0, df$R2)
 # Графики кажущихся удельных сопротивлений
 par(mfrow = c(3, 1), mar = c(2, 5, 2, 1), cex = 1.0, family = 'mono', las = 1, tck = 1)
-plot(df$TIME, df$A1, type = 'l', xlab = 'Time, s', col = 'red', lwd = 2, ylab = substitute(bold(rho[s ~ x ~ L ~ mm] ~ ~Omega %.% ~~m), list(s = mmBase, L = mmBase * 3)))
-plot(df$TIME, df$A2, type = 'l', xlab = 'Time, s', col = 'orange', lwd = 2, ylab = substitute(bold(rho[s ~ x ~ L ~ mm] ~ ~Omega %.% ~~m), list(s = mmBase * 5, L = mmBase * 3)))
-plot(df$TIME, df$POSITION, type = 'l', xlab = 'Time, s', col = 'blue', lwd = 2, ylab = 'POSITION, mm')
+col <- hue_pal()(3)
+plot(df$TIME, df$A1, type = 'l', xlab = 'Time, s', col = col[1], lwd = 2, ylab = substitute(bold(rho[s ~ x ~ L ~ mm] ~ ~Omega %.% ~~m), list(s = mmBase, L = mmBase * 3)))
+plot(df$TIME, df$A2, type = 'l', xlab = 'Time, s', col = col[2], lwd = 2, ylab = substitute(bold(rho[s ~ x ~ L ~ mm] ~ ~Omega %.% ~~m), list(s = mmBase * 5, L = mmBase * 3)))
+plot(df$TIME, df$POSITION, type = 'l', xlab = 'Time, s', col = col[3], lwd = 2, ylab = 'POSITION, mm')
 
 step <- 500
 outPosition <- sapply(1:(length(df$TIME) / step),
@@ -70,16 +72,17 @@ colnames(outREnd) <- c('TIME', 'R1', 'R2')
 
 # Графики выбранных точек начала и конца переходов
 par(mfrow = c(3, 1), mar = c(2, 5, 2, 1), cex = 1.0, family = 'mono', las = 1, tck = 1)
+col <- hue_pal()(3)
 plot(df$TIME, df$R1, type = 'l', xlab = 'Time, s', ylab = substitute(bold(R[s ~ x ~ L ~ mm] ~ ~Omega), list(s = mmBase, L = mmBase * 3)))
-lines(outRSrt$TIME, outRSrt$R1, type = 'b', lty = 'blank', col = 'red')
-lines(outREnd$TIME, outREnd$R1, type = 'b', lty = 'blank', col = 'orange')
+lines(outRSrt$TIME, outRSrt$R1, type = 'b', lty = 'blank', col = col[1])
+lines(outREnd$TIME, outREnd$R1, type = 'b', lty = 'blank', col = col[2])
 
 plot(df$TIME, df$R2, type = 'l', xlab = 'Time, s', ylab = substitute(bold(R[s ~ x ~ L ~ mm] ~ ~Omega), list(s = mmBase * 5, L = mmBase * 3)))
-lines(outRSrt$TIME, outRSrt$R2, type = 'b', lty = 'blank', col = 'red')
-lines(outREnd$TIME, outREnd$R2, type = 'b', lty = 'blank', col = 'orange')
+lines(outRSrt$TIME, outRSrt$R2, type = 'b', lty = 'blank', col = col[1])
+lines(outREnd$TIME, outREnd$R2, type = 'b', lty = 'blank', col = col[2])
 
 plot(df$TIME, df$POSITION, type = 'l', xlab = 'Time, s', ylab = 'POSITION, mm')
-lines(outPosition$TIME, outPosition$POSITION, type = 'b', lty = 'blank', col = 'blue')
+lines(outPosition$TIME, outPosition$POSITION, type = 'b', lty = 'blank', col = col[3])
 
 outA <- sapply(2:(length(outPosition$TIME) - 1),
                function(x) {
@@ -110,11 +113,12 @@ colnames(outA) <- c('TIME', 'POSITION', 'A1', 'A2', 'DA1', 'DA2')
 
 # Графики кажущихся удельных сопротивлений
 par(mfrow = c(3, 1), mar = c(2, 5, 2, 1), cex = 1.0, family = 'mono', las = 1, tck = 1)
-plot(df$TIME, df$A1, type = 'l', xlab = 'Time, s', col = 'red', lwd = 2, ylab = substitute(bold(rho[s ~ x ~ L ~ mm] ~ ~Omega %.% ~~m), list(s = mmBase, L = mmBase * 3)))
+col <- hue_pal()(3)
+plot(df$TIME, df$A1, type = 'l', xlab = 'Time, s', col = col[1], lwd = 2, ylab = substitute(bold(rho[s ~ x ~ L ~ mm] ~ ~Omega %.% ~~m), list(s = mmBase, L = mmBase * 3)))
 lines(outA$TIME, outA$A1, type = 'b', lty = 'blank', col = 'black')
-plot(df$TIME, df$A2, type = 'l', xlab = 'Time, s', col = 'orange', lwd = 2, ylab = substitute(bold(rho[s ~ x ~ L ~ mm] ~ ~Omega %.% ~~m), list(s = mmBase * 5, L = mmBase * 3)))
+plot(df$TIME, df$A2, type = 'l', xlab = 'Time, s', col = col[2], lwd = 2, ylab = substitute(bold(rho[s ~ x ~ L ~ mm] ~ ~Omega %.% ~~m), list(s = mmBase * 5, L = mmBase * 3)))
 lines(outA$TIME, outA$A2, type = 'b', lty = 'blank', col = 'black')
-plot(df$TIME, df$POSITION, type = 'l', xlab = 'Time, s', col = 'blue', lwd = 2, ylab = 'POSITION, mm')
+plot(df$TIME, df$POSITION, type = 'l', xlab = 'Time, s', col = col[3], lwd = 2, ylab = 'POSITION, mm')
 lines(outA$TIME, outA$POSITION, type = 'b', lty = 'blank', col = 'black')
 
 library("smoother")
@@ -126,19 +130,20 @@ smthDA2 <- smth(outA$DA2, window = window, method = "gaussian")
 
 # Графики кажущихся удельных сопротивлений и их производных
 par(mfrow = c(5, 1), mar = c(2, 6, 2, 1), cex = 1.0, family = 'mono', las = 1, tck = 1)
+col <- hue_pal()(5)
 plot(outA$TIME, outA$A1, type = 'l', xlab = 'Time, s', col = 'black', lwd = 1, ylab = substitute(bold(rho[s ~ x ~ L ~ mm] ~ ~Omega %.% ~~m), list(s = mmBase, L = mmBase * 3)))
-lines(outA$TIME, smthA1, col = "red", lty = "solid", lwd = 2)
+lines(outA$TIME, smthA1, col = col[1], lty = "solid", lwd = 2)
 
 plot(outA$TIME, outA$A2, type = 'l', xlab = 'Time, s', col = 'black', lwd = 1, ylab = substitute(bold(rho[s ~ x ~ L ~ mm] ~ ~Omega %.% ~~m), list(s = mmBase * 5, L = mmBase * 3)))
-lines(outA$TIME, smthA2, col = "orange", lty = "solid", lwd = 2)
+lines(outA$TIME, smthA2, col = col[2], lty = "solid", lwd = 2)
 
 plot(outA$TIME, outA$DA1, type = 'l', xlab = 'Time, s', col = 'black', lwd = 1, ylab = substitute(bold(frac(partialdiff ~ rho[s ~ x ~ L ~ mm], partialdiff ~ psi) ~ ~Omega %.% ~~m), list(s = mmBase, L = mmBase * 3)))
-lines(outA$TIME, smthDA1, col = "red", lty = "solid", lwd = 2)
+lines(outA$TIME, smthDA1, col = col[3], lty = "solid", lwd = 2)
 
 plot(outA$TIME, outA$DA2, type = 'l', xlab = 'Time, s', col = 'black', lwd = 1, ylab = substitute(bold(frac(partialdiff ~ rho[s ~ x ~ L ~ mm], partialdiff ~ psi) ~ ~Omega %.% ~~m), list(s = mmBase * 5, L = mmBase * 3)))
-lines(outA$TIME, smthDA2, col = "orange", lty = "solid", lwd = 2)
+lines(outA$TIME, smthDA2, col = col[4], lty = "solid", lwd = 2)
 
-plot(df$TIME, df$POSITION, type = 'l', xlab = 'Time, s', col = 'blue', lwd = 2, ylab = 'POSITION, mm', xlim = c(min(outA$TIME), max(outA$TIME)))
+plot(df$TIME, df$POSITION, type = 'l', xlab = 'Time, s', col = col[5], lwd = 2, ylab = 'POSITION, mm', xlim = c(min(outA$TIME), max(outA$TIME)))
 
 out_file <- na.omit(data.frame(outA$TIME, outA$POSITION, smthA1, smthA2, smthDA1, smthDA2))
 colnames(out_file) <- c('TIME', 'POSITION', 'A1', 'A2', 'DA1', 'DA2')
