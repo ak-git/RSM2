@@ -27,6 +27,7 @@ for (i in seq_along(fileSuffix)) {
   inv2 <- read.csv(list.files(pattern = paste0("inverse - ", format(fileSuffix[i], nsmall = 1), ".csv$")))
   lines(inv2$TIME, inv2$rho1, type = 'l', col = col2[i], lwd = 2, lty = i)
 }
+legend("topright", legend = fileSuffix, lty = seq_along(fileSuffix), col = col2, horiz = F, cex = 0.7)
 
 plot(inv$TIME, inv$rho2, type = 'l', col = col[5], lwd = 2, xlab = xlab, ylab = expression(Omega %.% m),
      main = expression(bold(rho[2])))
@@ -34,9 +35,11 @@ for (i in seq_along(fileSuffix)) {
   inv2 <- read.csv(list.files(pattern = paste0("inverse - ", format(fileSuffix[i], nsmall = 1), ".csv$")))
   lines(inv2$TIME, inv2$rho2, type = 'l', col = col2[i], lwd = 2, lty = i)
 }
+legend("topright", legend = fileSuffix, lty = seq_along(fileSuffix), col = col2, horiz = F, cex = 0.7)
 
 plot(inv$TIME, inv$h, type = 'l', col = col[6], lwd = 2, xlab = xlab, ylab = 'mm', main = 'h')
 for (i in seq_along(fileSuffix)) {
   inv2 <- read.csv(list.files(pattern = paste0("inverse - ", format(fileSuffix[i], nsmall = 1), ".csv$")))
   lines(inv2$TIME, inv2$h, type = 'l', col = col2[i], lwd = 2, lty = i)
 }
+legend("topright", legend = fileSuffix, lty = seq_along(fileSuffix), col = col2, horiz = F, cex = 0.7)
