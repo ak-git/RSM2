@@ -1,5 +1,5 @@
 library('scales')
-mmBase <- 6
+mmBase <- 7
 
 inv <- read.csv(list.files(pattern = "inverse.csv$"))
 xlim <- c(min(na.omit(inv$TIME)), max(na.omit(inv$TIME)))
