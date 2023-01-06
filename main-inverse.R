@@ -2,6 +2,10 @@ library('scales')
 mmBase <- 6
 
 inv <- read.csv(list.files(pattern = "inverse.csv$"))
+inv <- inv[inv$rho1 > 10 * inv$rho1AbsError &
+             inv$rho2 > 10 * inv$rho2AbsError &
+             inv$h > 10 * inv$hAbsError &
+             inv$h < 5,]
 xlim <- c(min(na.omit(inv$TIME)), max(na.omit(inv$TIME)))
 
 interval <- (xlim[1] * 1000 + 1):(xlim[2] * 1000)
