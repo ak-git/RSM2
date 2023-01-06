@@ -1,6 +1,6 @@
 library('scales')
 mmBase <- 6
-interval <- (185 * 1000 + 1):(240 * 1000)
+interval <- (215 * 1000 + 1):(375 * 1000)
 
 source(file = 'read.R')
 
