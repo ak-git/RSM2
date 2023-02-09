@@ -1,6 +1,6 @@
 mmBase <- 7
 fixOhms <- FALSE
-interval <- (01 * 1000 + 1):(11 * 1000)
+interval <- (65 * 1000 + 1):(80 * 1000)
 df <- read.csv(list.files(pattern = ".csv$"))[interval,]
 
 
