@@ -1,6 +1,6 @@
-mmBase <- 8
-fixOhms <- as.integer(readline("switch? 0 - no, 1 - yes")) > 0
-interval <- (1 * 1000 + 1):(80 * 1000)
+mmBase <- 7
+fixOhms <- FALSE
+interval <- (01 * 1000 + 1):(11 * 1000)
 df <- read.csv(list.files(pattern = ".csv$"))[interval,]
 
 
@@ -20,8 +20,8 @@ plot(df$TIME, df$R1, type = 'l', xlab = 'Time, s', col = 'red', lwd = 2, ylab = 
 plot(df$TIME, df$R2, type = 'l', xlab = 'Time, s', col = 'orange', lwd = 2, ylab = substitute(bold(R[s ~ x ~ L ~ mm] ~ ~Omega), yLab2))
 plot(df$TIME, df$POSITION, type = 'l', xlab = 'Time, s', col = 'blue', lwd = 2, ylab = 'POSITION, mm')
 
-step <- 4000
-step2 <- 2000
+step <- 2000
+step2 <- 1000
 centerShift <- 0
 splinePosition <- sapply(0:(length(df$TIME) / step),
                          function(x) {
