@@ -2,7 +2,12 @@ library('scales')
 mmBase <- 7
 
 filter <- function(inv) {
-  return(inv[inv$rho1 < 10 & inv$rho2 < 10 & inv$h < 10,])
+  return(inv[1 < inv$rho1 &
+               inv$rho1 < 100 &
+               1 < inv$rho2 &
+               inv$rho2 < 100 &
+               2 < inv$h &
+               inv$h < 8,])
 }
 
 inv <- read.csv(list.files(pattern = "inverse.csv$"))
@@ -24,7 +29,7 @@ plot(df$TIME, df$POSITION, type = 'l', col = col[3], lwd = 2, xlim = xlim, xlab 
      main = 'Position')
 
 # Графики параметров модели
-fileSuffix <- rev(c(0.0))
+fileSuffix <- rev(c(0.1, 0.2, 0.3, 0.4, 0.5))
 col2 <- hue_pal()(length(fileSuffix))
 plot(inv$TIME, inv$rho1, type = 'l', col = col[4], lwd = 2, xlab = xlab, ylab = expression(Omega %.% m),
      main = expression(bold(rho[1])))
