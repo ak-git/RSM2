@@ -130,10 +130,10 @@ lines(outA$TIME, outA$POSITION, type = 'b', lty = 'blank', col = 'black')
 
 library("smoother")
 window <- 7 / (outA$TIME[length(outA$TIME)] - outA$TIME[1]) # 7 sec smoothing
-smthA1 <- smth(outA$A1, window = window, method = "gaussian")
-smthA2 <- smth(outA$A2, window = window, method = "gaussian")
-smthDA1 <- smth(outA$DA1, window = window, method = "gaussian")
-smthDA2 <- smth(outA$DA2, window = window, method = "gaussian")
+smthA1 <- outA$A1
+smthA2 <- outA$A2
+smthDA1 <- outA$DA1
+smthDA2 <- outA$DA2
 
 # Графики кажущихся удельных сопротивлений и их производных
 par(mfrow = c(5, 1), mar = c(2, 6, 2, 1), cex = 1.0, family = 'mono', las = 1, tck = 1)
