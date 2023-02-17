@@ -29,8 +29,6 @@ df2 <- sapply(1:(length(df$TIME)),
 )
 df <- as.data.frame(t(df2))
 tail(df)
-# interval <- (0 * 1000 + 1):(7 * 1000)
-# df <- df[interval,]
 colnames(df) <- c('TIME', 'POSITION', 'R1', 'R2', 'CCR')
 
 par(mfrow = c(3, 1), mar = c(2, 5, 2, 1), cex = 1.0, family = 'mono', las = 1, tck = 1)
