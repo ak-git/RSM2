@@ -29,7 +29,7 @@ plot(df$TIME, df$POSITION, type = 'l', col = col[3], lwd = 2, xlim = xlim, xlab 
      main = 'Position')
 
 # Графики параметров модели
-fileSuffix <- rev(c(0.0, 0.1, 0.2, 0.3, 0.5))
+fileSuffix <- rev(c(0.0, 0.1, 0.2, 0.3, 0.4, 0.5))
 col2 <- hue_pal()(length(fileSuffix))
 plot(inv$TIME, inv$rho1, type = 'l', col = col[4], lwd = 2, xlab = xlab, ylab = expression(Omega %.% m),
      main = expression(bold(rho[1])))
