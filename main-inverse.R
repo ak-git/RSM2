@@ -29,7 +29,7 @@ plot(df$TIME, df$POSITION, type = 'l', col = col[3], lwd = 2, xlim = xlim, xlab 
      main = 'Position')
 
 # Графики параметров модели
-fileSuffix <- c(0.0, 0.1, 0.2, 1.0, 5.0, 10.0)
+fileSuffix <- c(0.0, 0.1, 1.0, 10.0)
 lineType <- 'l'
 col2 <- hue_pal()(length(fileSuffix))
 for (i in seq_along(fileSuffix)) {
