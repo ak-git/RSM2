@@ -18,54 +18,55 @@ interval <- (xlim[1] * 1000 + 1):(xlim[2] * 1000)
 source(file = 'read.R')
 
 # Графики исходных сигналов
-par(mfrow = c(6, 1), mar = c(2, 5, 2, 1), cex = 1.0, family = 'mono', las = 1, tck = 1)
+par(mfcol = c(6, 1), mar = c(3, 5, 2, 1), cex = 1.0, family = 'mono', las = 1, tck = 1)
 col <- hue_pal()(3)
-xlab <- 'Time, s'
-plot(df$TIME, df$R1, type = 'l', col = col[1], lwd = 2, xlim = xlim, xlab = xlab, ylab = expression(Omega),
+xlab <- 'Время, с'
+lwd <- 2
+plot(df$TIME, df$R1, type = 'l', col = col[1], lwd = lwd, xlim = xlim, xlab = xlab, ylab = expression(Omega),
      main = substitute(bold(R[s ~ x ~ L ~ mm]), list(s = mmBase, L = mmBase * 3)))
-plot(df$TIME, df$R2, type = 'l', xlab = xlab, col = col[2], lwd = 2, xlim = xlim, ylab = expression(Omega),
+plot(df$TIME, df$R2, type = 'l', xlab = xlab, col = col[2], lwd = lwd, xlim = xlim, ylab = expression(Omega),
      main = substitute(bold(R[s ~ x ~ L ~ mm]), list(s = mmBase * 5, L = mmBase * 3)))
-plot(df$TIME, df$POSITION, type = 'l', col = col[3], lwd = 2, xlim = xlim, xlab = xlab, ylab = 'mm',
-     main = 'Position')
+plot(df$TIME, df$POSITION, type = 'l', col = col[3], lwd = lwd, xlim = xlim, xlab = xlab, ylab = 'mm',
+     main = 'Положение электродной системы по вертикали')
 
 # Графики параметров модели
-fileSuffix <- c(0.0, 0.1, 1.0, 10.0)
+fileSuffix <- c(0.0, 1.0, 10.0)
 lineType <- 'l'
 col2 <- hue_pal()(length(fileSuffix))
 for (i in seq_along(fileSuffix)) {
   if (i == 1) {
-    plot(inv$TIME, inv$rho1, type = lineType, col = col2[i], lwd = 2, xlab = xlab, ylab = expression(Omega %.% m),
+    plot(inv$TIME, inv$rho1, type = lineType, col = col2[i], lwd = lwd, xlab = xlab, ylab = expression(Omega %.% m),
          main = expression(bold(rho[1])))
   }
   else {
     inv2 <- read.csv(list.files(pattern = paste0("inverse - ", format(fileSuffix[i], nsmall = 1), ".csv$")))
     inv2 <- filter(inv2)
-    lines(inv2$TIME, inv2$rho1, type = lineType, col = col2[i], lwd = 2, lty = i)
+    lines(inv2$TIME, inv2$rho1, type = lineType, col = col2[i], lwd = lwd, lty = i)
   }
 }
-legend("topright", legend = fileSuffix, title = expression(alpha), lty = seq_along(fileSuffix), col = col2, horiz = F, cex = 0.7)
+legend("topright", legend = fileSuffix, title = expression(alpha), lty = seq_along(fileSuffix), col = col2, horiz = F, cex = 0.8)
 
 for (i in seq_along(fileSuffix)) {
   if (i == 1) {
-    plot(inv$TIME, inv$rho2, type = lineType, col = col2[i], lwd = 2, xlab = xlab, ylab = expression(Omega %.% m),
+    plot(inv$TIME, inv$rho2, type = lineType, col = col2[i], lwd = lwd, xlab = xlab, ylab = expression(Omega %.% m),
          main = expression(bold(rho[2])))
   }
   else {
     inv2 <- read.csv(list.files(pattern = paste0("inverse - ", format(fileSuffix[i], nsmall = 1), ".csv$")))
     inv2 <- filter(inv2)
-    lines(inv2$TIME, inv2$rho2, type = lineType, col = col2[i], lwd = 2, lty = i)
+    lines(inv2$TIME, inv2$rho2, type = lineType, col = col2[i], lwd = lwd, lty = i)
   }
 }
-legend("topright", legend = fileSuffix, title = expression(alpha), lty = seq_along(fileSuffix), col = col2, horiz = F, cex = 0.7)
+legend("topright", legend = fileSuffix, title = expression(alpha), lty = seq_along(fileSuffix), col = col2, horiz = F, cex = 0.8)
 
 for (i in seq_along(fileSuffix)) {
   if (i == 1) {
-    plot(inv$TIME, inv$h, type = lineType, col = col2[i], lwd = 2, xlab = xlab, ylab = 'mm', main = 'h')
+    plot(inv$TIME, inv$h, type = lineType, col = col2[i], lwd = lwd, xlab = xlab, ylab = 'mm', main = 'h')
   }
   else {
     inv2 <- read.csv(list.files(pattern = paste0("inverse - ", format(fileSuffix[i], nsmall = 1), ".csv$")))
     inv2 <- filter(inv2)
-    lines(inv2$TIME, inv2$h, type = lineType, col = col2[i], lwd = 2, lty = i)
+    lines(inv2$TIME, inv2$h, type = lineType, col = col2[i], lwd = lwd, lty = i)
   }
 }
-legend("topright", legend = fileSuffix, title = expression(alpha), lty = seq_along(fileSuffix), col = col2, horiz = F, cex = 0.7)
+legend("topright", legend = fileSuffix, title = expression(alpha), lty = seq_along(fileSuffix), col = col2, horiz = F, cex = 0.8)
