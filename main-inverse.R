@@ -6,7 +6,7 @@ filter <- function(inv) {
                inv$rho1 < 100 &
                1 < inv$rho2 &
                inv$rho2 < 100 &
-               2 < inv$h &
+               1 < inv$h &
                inv$h < 8,])
 }
 
@@ -18,10 +18,10 @@ interval <- (xlim[1] * 1000 + 1):(xlim[2] * 1000)
 source(file = 'read.R')
 
 # Графики исходных сигналов
-par(mfcol = c(6, 1), mar = c(3, 5, 2, 1), cex = 1.0, family = 'mono', las = 1, tck = 1)
+par(mfcol = c(3, 2), mar = c(3, 5, 2, 1), cex = 1.0, family = 'mono', las = 1, tck = 1)
 col <- hue_pal()(3)
 xlab <- 'Время, с'
-lwd <- 2
+lwd <- 3
 plot(df$TIME, df$R1, type = 'l', col = col[1], lwd = lwd, xlim = xlim, xlab = xlab, ylab = expression(Omega),
      main = substitute(bold(R[s ~ x ~ L ~ mm]), list(s = mmBase, L = mmBase * 3)))
 plot(df$TIME, df$R2, type = 'l', xlab = xlab, col = col[2], lwd = lwd, xlim = xlim, ylab = expression(Omega),
