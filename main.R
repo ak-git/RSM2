@@ -1,7 +1,7 @@
 mmBase <- 7
 fixOhms <- FALSE
-interval <- (1 * 1000 + 1):(16 * 1000)
-df <- read.csv(list.files(pattern = "2023-02-16 18-13-32.csv$"))[interval,]
+interval <- (01 * 1000 + 1):(11 * 1000)
+df <- read.csv(list.files(pattern = "2023-02-02 17-45-08.csv$"))[interval,]
 
 
 yLab1 <- list(s = mmBase, L = mmBase * 3)
