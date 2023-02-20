@@ -1,7 +1,7 @@
 mmBase <- 7
 fixOhms <- FALSE
-interval <- (01 * 1000 + 1):(11 * 1000)
-df <- read.csv(list.files(pattern = "2023-02-02 17-45-08.csv$"))[interval,]
+interval <- (3 * 1000 + 1):(14 * 1000)
+df <- read.csv(list.files(pattern = "2023-02-16 18-06-48.csv$"))[interval,]
 
 
 yLab1 <- list(s = mmBase, L = mmBase * 3)
@@ -22,7 +22,7 @@ plot(df$TIME, df$POSITION, type = 'l', xlab = 'Time, s', col = 'blue', lwd = 2, 
 
 step <- 2000
 step2 <- 1000
-centerShift <- 0
+centerShift <- 150
 splinePosition <- sapply(0:(length(df$TIME) / step),
                          function(x) {
                            center <- x * step + step2 / 2 + 1
@@ -101,4 +101,5 @@ if (fixOhms) {
 
 median(splineR1Line$y)
 median(splineR2Line$y)
+median(df$FORCE)
 aggregate(pointsDiffR, by = list(pointsDiffR$POSITION), FUN = mean)
