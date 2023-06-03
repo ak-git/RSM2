@@ -1,7 +1,7 @@
-mmBase <- 7
+mmBase <- 6
 fixOhms <- FALSE
-interval <- (01 * 1000 + 1):(11 * 1000)
-df <- read.csv(list.files(pattern = "2023-02-02 17-45-08.csv$"))[interval,]
+interval <- (23.5 * 1000 + 1):(40 * 1000)
+df <- read.csv(list.files(pattern = "2023-05-26 18-05-22.csv$"))[interval,]
 
 
 yLab1 <- list(s = mmBase, L = mmBase * 3)
@@ -20,8 +20,8 @@ plot(df$TIME, df$R1, type = 'l', xlab = 'Time, s', col = 'red', lwd = 2, ylab = 
 plot(df$TIME, df$R2, type = 'l', xlab = 'Time, s', col = 'orange', lwd = 2, ylab = substitute(bold(R[s ~ x ~ L ~ mm] ~ ~Omega), yLab2))
 plot(df$TIME, df$POSITION, type = 'l', xlab = 'Time, s', col = 'blue', lwd = 2, ylab = 'POSITION, mm')
 
-step <- 2000
-step2 <- 1000
+step <- 1000
+step2 <- step / 2
 centerShift <- 0
 splinePosition <- sapply(0:(length(df$TIME) / step),
                          function(x) {
@@ -32,7 +32,7 @@ splinePosition <- sapply(0:(length(df$TIME) / step),
 splinePosition <- as.data.frame(t(splinePosition))
 colnames(splinePosition) <- c('TIME', 'POSITION')
 
-splineR <- sapply(0:(length(df$TIME) / step),
+splineR <- sapply(1:(length(df$TIME) / step),
                   function(x) {
                     center <- x * step + step2 / 2 + 1 + centerShift
                     start <- center - step2 / 4
@@ -58,11 +58,11 @@ lines(splineR2Line, col = "black")
 plot(df$TIME, df$POSITION, type = 'l', xlab = 'Time, s', col = 'blue', lwd = 2, ylab = 'POSITION, mm')
 lines(splinePosition$TIME, splinePosition$POSITION, type = 'b', lty = 'blank', col = 'black')
 
-paste("h = ", df$POSITION[1], " mm")
+paste("h =", df$POSITION[1], "mm; time =", (interval[1] - 1) / 1000, "-", interval[length(interval)] / 1000, "s")
 
 pulseR1 <- df$R1 - splineR1Line$y
 pulseR2 <- df$R2 - splineR2Line$y
-pointsR <- sapply(0:(length(df$TIME) / (step / 2)),
+pointsR <- sapply(1:(length(df$TIME) / (step / 2)),
                   function(x) {
                     center <- x * step / 2 + step2 / 2 + 1 + centerShift
                     start <- center - step2 / 4

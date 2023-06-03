@@ -1,6 +1,6 @@
 library('scales')
 
-mmBase <- 7
+mmBase <- 6
 
 pureLogic <- read.csv(list.files(pattern = "PureLogic.csv$"))
 tail(pureLogic)
