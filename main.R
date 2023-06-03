@@ -1,17 +1,10 @@
 mmBase <- 6
-fixOhms <- FALSE
 interval <- (23.5 * 1000 + 1):(40 * 1000)
 df <- read.csv(list.files(pattern = "2023-05-26 18-05-22.csv$"))[interval,]
 
 
 yLab1 <- list(s = mmBase, L = mmBase * 3)
 yLab2 <- list(s = mmBase * 5, L = mmBase * 3)
-if (fixOhms) {
-  df$R2 <- df$R2 * 2 - df$R1 * 2
-  df$R1 <- df$R1 * 2
-  yLab1 <- list(s = mmBase * 2, L = mmBase * 4)
-  yLab2 <- list(s = mmBase * 6, L = mmBase * 4)
-}
 
 # Графики исходных сигналов
 par(mfrow = c(3, 1), mar = c(2, 5, 2, 1), cex = 1.0, family = 'mono', las = 1, tck = 1)
@@ -93,11 +86,7 @@ pointsDiffR <- sapply(1:((length(pointsR$TIME) - 2) / 2),
                       }
 )
 pointsDiffR <- as.data.frame(t(pointsDiffR))
-if (fixOhms) {
-  colnames(pointsDiffR) <- c('TIME', 'POSITION', 'dR3', 'dR4')
-} else {
-  colnames(pointsDiffR) <- c('TIME', 'POSITION', 'dR1', 'dR2')
-}
+colnames(pointsDiffR) <- c('TIME', 'POSITION', 'dR1', 'dR2')
 
 median(splineR1Line$y)
 median(splineR2Line$y)
