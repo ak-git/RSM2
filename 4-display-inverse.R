@@ -1,7 +1,7 @@
 library('scales')
 mmBase <- 7
 
-fileSuffix <- rev(c(0.2, 0.5, 10.0, 100.0, 1.0))
+fileSuffix <- rev(c(0.1, 1.0))
 
 filter <- function(inv) {
   return(inv[1 < inv$rho1 &
@@ -9,7 +9,7 @@ filter <- function(inv) {
                1 < inv$rho2 &
                inv$rho2 < 100 &
                1 < inv$h &
-               inv$h < 10,])
+               inv$h < 15,])
 }
 
 inv <- read.csv(list.files(pattern = paste0("inverse - ", format(fileSuffix[1], nsmall = 1), ".csv$")))
@@ -44,7 +44,7 @@ lapply(seq_along(fileSuffix), function (i) {
   if (i == 1) {
     plot(inv2$TIME, inv2$rho1, type = lineType, col = col2[i], lwd = lwd, xlab = xlab, ylab = expression(Omega %.% m),
          main = expression(bold(rho[1])),
-         ylim = c(min(sapply(inv, function (i) {min(i$rho1)})), max(sapply(inv, function (i) {max(i$rho1)}))))
+         ylim = c(min(sapply(inv, function (i) {min(na.omit(i$rho1))})), max(sapply(inv, function (i) {max(na.omit(i$rho1))}))))
   }
   else {
     lines(inv2$TIME, inv2$rho1, type = lineType, col = col2[i], lwd = lwd, lty = i)
@@ -57,7 +57,7 @@ lapply(seq_along(fileSuffix), function (i) {
   if (i == 1) {
     plot(inv2$TIME, inv2$rho2, type = lineType, col = col2[i], lwd = lwd, xlab = xlab, ylab = expression(Omega %.% m),
          main = expression(bold(rho[2])),
-         ylim = c(min(sapply(inv, function (i) {min(i$rho2)})), max(sapply(inv, function (i) {max(i$rho2)}))))
+         ylim = c(min(sapply(inv, function (i) {min(na.omit(i$rho2))})), max(sapply(inv, function (i) {max(na.omit(i$rho2))}))))
   }
   else {
     lines(inv2$TIME, inv2$rho2, type = lineType, col = col2[i], lwd = lwd, lty = i)
@@ -69,7 +69,7 @@ lapply(seq_along(fileSuffix), function (i) {
   inv2 <- inv[[i]]
   if (i == 1) {
     plot(inv2$TIME, inv2$h, type = lineType, col = col2[i], lwd = lwd, xlab = xlab, ylab = 'mm', main = 'h',
-         ylim = c(min(sapply(inv, function (i) {min(i$h)}), min(inv2$POSITION)), max(sapply(inv, function (i) {max(i$h)}))))
+         ylim = c(min(sapply(inv, function (i) {min(na.omit(i$h))}), min(na.omit(inv2$POSITION))), max(sapply(inv, function (i) {max(na.omit(i$h))}))))
   }
   else {
     lines(inv2$TIME, inv2$h, type = lineType, col = col2[i], lwd = lwd, lty = i)

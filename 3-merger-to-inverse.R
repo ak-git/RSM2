@@ -1,7 +1,7 @@
 library('scales')
 mmBase <- 7
 
-interval <- (0 * 1000 + 1):(19 * 1000)
+interval <- (5 * 1000 + 1):(149 * 1000)
 rm(list = c("interval"))
 source(file = 'read.R')
 
@@ -39,7 +39,7 @@ plot(df$TIME, df$A2, type = 'l', xlab = xlab, col = col[2], lwd = 2,
 plot(df$TIME, df$POSITION, type = 'l', xlab = xlab, col = col[3], lwd = 2, ylab = 'POSITION, mm')
 
 step <- 500
-centerShift <- step / 2
+centerShift <- -step / 4
 outPosition <- sapply(1:(length(df$TIME) / step),
                       function(x) {
                         center <- x * step + step / 2 + 1
@@ -75,7 +75,7 @@ lines(outR$TIME, outR$R2, type = 'b', lty = 'blank', col = col[2])
 plot(df$TIME, df$POSITION, type = 'l', xlab = xlab, ylab = 'POSITION, mm')
 lines(outPosition$TIME, outPosition$POSITION, type = 'b', lty = 'blank', col = col[3])
 
-outA <- sapply(1:(length(outPosition$TIME)),
+outA <- sapply(1:(length(outPosition$TIME) - 1),
                function(x) {
                  R1 <- max(mean(c(outR$R1[x - 1], outR$R1[x + 1])), outR$R1[x])
                  R2 <- max(mean(c(outR$R2[x - 1], outR$R2[x + 1])), outR$R2[x])
