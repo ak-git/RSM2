@@ -1,7 +1,7 @@
 library('scales')
 mmBase <- 7
 
-fileSuffix <- rev(c(0.0, 0.1, 0.2, 0.5, 1.0))
+fileSuffix <- rev(c(0.2, 0.5, 10.0, 100.0, 1.0))
 
 filter <- function(inv) {
   return(inv[1 < inv$rho1 &
@@ -69,10 +69,12 @@ lapply(seq_along(fileSuffix), function (i) {
   inv2 <- inv[[i]]
   if (i == 1) {
     plot(inv2$TIME, inv2$h, type = lineType, col = col2[i], lwd = lwd, xlab = xlab, ylab = 'mm', main = 'h',
-         ylim = c(min(sapply(inv, function (i) {min(i$h)})), max(sapply(inv, function (i) {max(i$h)}))))
+         ylim = c(min(sapply(inv, function (i) {min(i$h)}), min(inv2$POSITION)), max(sapply(inv, function (i) {max(i$h)}))))
   }
   else {
     lines(inv2$TIME, inv2$h, type = lineType, col = col2[i], lwd = lwd, lty = i)
   }
 })
+inv2 <- inv[[1]]
+lines(inv2$TIME, inv2$POSITION, type = 'p', col = col[3], lwd = lwd, lty = 1)
 legend("topright", legend = fileSuffix, title = expression(alpha), lty = seq_along(fileSuffix), col = col2, horiz = F, cex = 0.8)
