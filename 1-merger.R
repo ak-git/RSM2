@@ -1,6 +1,6 @@
 library('scales')
 
-mmBase <- 6
+mmBase <- 7
 
 pureLogic <- read.csv(list.files(pattern = "PureLogic.csv$"))
 tail(pureLogic)
@@ -46,4 +46,4 @@ plot(df$TIME, df$R2, type = 'l', xlab = xlab, ylab = expression(Omega), col = co
 plot(df$TIME, df$POSITION, type = 'l', xlab = xlab, ylab = 'mm', col = col[3], lwd = lwd,
      main = 'Положение электродной системы по вертикали')
 
-write.csv(df, file = 'out.csv', row.names = FALSE)
+write.csv(df, file = 'out-avg-selector.csv', row.names = FALSE)

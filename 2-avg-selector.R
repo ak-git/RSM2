@@ -1,6 +1,6 @@
-mmBase <- 6
-interval <- (23.5 * 1000 + 1):(40 * 1000)
-df <- read.csv(list.files(pattern = "2023-05-26 18-05-22.csv$"))[interval,]
+mmBase <- 7
+interval <- (0 * 1000 + 1):(19 * 1000)
+df <- read.csv(list.files(pattern = "out-avg-selector.csv$"))[interval,]
 
 
 yLab1 <- list(s = mmBase, L = mmBase * 3)
@@ -15,7 +15,7 @@ plot(df$TIME, df$POSITION, type = 'l', xlab = 'Time, s', col = 'blue', lwd = 2, 
 
 step <- 1000
 step2 <- step / 2
-centerShift <- 0
+centerShift <- step2 / 4
 splinePosition <- sapply(0:(length(df$TIME) / step),
                          function(x) {
                            center <- x * step + step2 / 2 + 1
