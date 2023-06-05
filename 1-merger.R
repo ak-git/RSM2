@@ -2,7 +2,7 @@ library('scales')
 
 mmBase <- 7
 
-interval <- (0 * 1000 + 1):(149 * 1000)
+interval <- (0 * 1000 + 1):(117 * 1000)
 rm(list = c("interval"))
 source(file = 'read.R')
 
