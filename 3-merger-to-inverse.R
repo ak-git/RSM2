@@ -50,15 +50,15 @@ outPosition <- as.data.frame(t(outPosition))
 colnames(outPosition) <- c('TIME', 'POSITION')
 
 outR <- sapply(1:(length(df$TIME) / step),
-                  function(x) {
-                    center <- x * step + step / 2 + 1 + centerShift
-                    start <- center - step / 8
-                    end <- center + step / 8
-                    interval <- (start):(end)
-                    R1 <- mean(df$R1[interval])
-                    R2 <- mean(df$R2[interval])
-                    c(df$TIME[start], R1, R2)
-                  }
+               function(x) {
+                 center <- x * step + step / 2 + 1 + centerShift
+                 start <- center - step / 8
+                 end <- center + step / 8
+                 interval <- (start):(end)
+                 R1 <- mean(df$R1[interval])
+                 R2 <- mean(df$R2[interval])
+                 c(df$TIME[start], R1, R2)
+               }
 )
 outR <- as.data.frame(t(outR))
 colnames(outR) <- c('TIME', 'R1', 'R2')
@@ -143,6 +143,11 @@ lines(outA$TIME, smthDA2, col = col[4], lty = "solid", lwd = 2)
 plot(df$TIME, df$POSITION, type = 'l', xlab = xlab, col = col[5], lwd = 2,
      ylab = 'POSITION, mm', xlim = c(min(outA$TIME), max(outA$TIME)))
 
-out_file <- na.omit(data.frame(outA$TIME, outA$POSITION, smthA1, smthA2, smthDA1, smthDA2))
-colnames(out_file) <- c('TIME', 'POSITION', 'A1', 'A2', 'DA1', 'DA2')
+out_file <- na.omit(data.frame(outA$TIME, smthA1, smthA2, smthDA1, smthDA2))
+colnames(out_file) <- c('TIME', 'A1', 'A2', 'DA1', 'DA2')
+
+# Remove subset
+out_file <- merge(df[, !names(df) %in% c('A1', 'A2')], out_file)
+colnames(out_file) <- c('TIME', 'POSITION', 'R1', 'R2', 'CCR', 'ANGLE', 'A1', 'A2', 'DA1', 'DA2')
+
 write.csv(out_file, file = paste('out', mmBase, 'mm.csv', sep = ' '), row.names = FALSE)
