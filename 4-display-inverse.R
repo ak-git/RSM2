@@ -1,7 +1,7 @@
 library('scales')
 mmBase <- 7
 
-fileSuffix <- rev(c(0.1, 1.0, 10.0))
+fileSuffix <- rev(c(0.2, 0.5, 1.0))
 
 filter <- function(inv) {
   return(inv[1 < inv$rho1 &
