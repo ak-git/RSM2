@@ -146,8 +146,9 @@ plot(df$TIME, df$POSITION, type = 'l', xlab = xlab, col = col[5], lwd = 2,
 out_file <- na.omit(data.frame(outA$TIME, smthA1, smthA2, smthDA1, smthDA2))
 colnames(out_file) <- c('TIME', 'A1', 'A2', 'DA1', 'DA2')
 
-# Remove subset
+# объединение в один файл
 out_file <- merge(df[, !names(df) %in% c('A1', 'A2')], out_file)
+# выбор каждой 3-й строчки
+out_file <- out_file[seq(1, nrow(out_file), 3),]
 colnames(out_file) <- c('TIME', 'POSITION', 'R1', 'R2', 'CCR', 'ANGLE', 'A1', 'A2', 'DA1', 'DA2')
-
 write.csv(out_file, file = paste('out', mmBase, 'mm.csv', sep = ' '), row.names = FALSE)
