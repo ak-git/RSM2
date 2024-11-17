@@ -1,6 +1,6 @@
 library('scales')
 mmBase <- 7
-interval <- (134 * 1000 + 1):(144 * 1000)
+interval <- (176 * 1000 + 1):(185 * 1000)
 
 source(file = 'read.R')
 
@@ -81,4 +81,9 @@ outA <- sapply(1:(length(outPosition$TIME) - 1),
 outA <- as.data.frame(t(outA))
 colnames(outA) <- c('TIME', 'POSITION', 'R1-begin', 'R2-begin', 'R1-end', 'R2-end')
 write.csv(outA, file = paste('out', mmBase, 'mm.csv', sep = ' '), row.names = TRUE)
-paste(mean(df$R1), mean(df$R2), mean(outA$`R1-begin` - outA$`R1-end`), mean(outA$`R2-begin` - outA$`R2-end`), sep = ", ")
+
+paste(min(df$POSITION), "mm;", max(df$POSITION), "mm;", min(interval - 1) / 1000, " - ", max(interval) / 1000, "s")
+paste(min(median(outA$`R1-begin`), median(outA$`R1-end`)),
+      min(median(outA$`R2-begin`), median(outA$`R2-end`)),
+      max(median(outA$`R1-begin`), median(outA$`R1-end`)),
+      max(median(outA$`R2-begin`), median(outA$`R2-end`)), sep = ", ")
