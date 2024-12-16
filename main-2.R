@@ -1,6 +1,19 @@
 library('scales')
 mmBase <- 7
-interval <- (176 * 1000 + 1):(185 * 1000)
+interval <- (134 * 1000 + 1):(144 * 1000)
+# interval <- (145 * 1000 + 1):(154 * 1000)
+# interval <- (155 * 1000 + 1):(164 * 1000)
+# interval <- (165 * 1000 + 1):(175 * 1000)
+# interval <- (176 * 1000 + 1):(185 * 1000)
+# interval <- (186 * 1000 + 1):(196 * 1000)
+# interval <- (197 * 1000 + 1):(206 * 1000)
+# interval <- (207 * 1000 + 1):(217 * 1000)
+# interval <- (218 * 1000 + 1):(227 * 1000)
+# interval <- (228 * 1000 + 1):(237 * 1000)
+# interval <- (238 * 1000 + 1):(248 * 1000)
+# interval <- (249 * 1000 + 1):(258 * 1000)
+# interval <- (670 * 1000 + 1):(674 * 1000)
+# interval <- (675 * 1000 + 1):(679 * 1000)
 
 source(file = 'read.R')
 
@@ -27,8 +40,8 @@ colnames(outPosition) <- c('TIME', 'POSITION')
 outRSrt <- sapply(0:(length(df$TIME) / step),
                   function(x) {
                     center <- x * step + step / 2
-                    start <- center - step / 8
-                    end <- center + step / 8
+                    start <- center - step / 2.5
+                    end <- center + step / 2.5
                     interval <- (start):(end)
                     R1 <- max(df$R1[interval])
                     R2 <- max(df$R2[interval])
@@ -41,8 +54,8 @@ colnames(outRSrt) <- c('TIME', 'R1', 'R2')
 outREnd <- sapply(0:(length(df$TIME) / step),
                   function(x) {
                     center <- x * step + step
-                    start <- center - step / 8
-                    end <- center + step / 8
+                    start <- center - step / 2.5
+                    end <- center + step / 2.5
                     interval <- (start):(end)
                     R1 <- min(df$R1[interval])
                     R2 <- min(df$R2[interval])
@@ -78,7 +91,7 @@ outA <- sapply(1:(length(outPosition$TIME) - 1),
                  c(outPosition$TIME[x], outPosition$POSITION[x], R1begin, R2begin, R1end, R2end)
                }
 )
-outA <- as.data.frame(t(outA))
+outA <- na.omit(as.data.frame(t(outA)))
 colnames(outA) <- c('TIME', 'POSITION', 'R1-begin', 'R2-begin', 'R1-end', 'R2-end')
 write.csv(outA, file = paste('out', mmBase, 'mm.csv', sep = ' '), row.names = TRUE)
 
