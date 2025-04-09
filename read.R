@@ -1,6 +1,6 @@
 aper <- read.csv(list.files(pattern = "aper.csv$"))
 tail(aper)
-pureLogic <- read.csv(list.files(pattern = "PureLogicF6_0.csv$"))
+pureLogic <- read.csv(list.files(pattern = "PureLogicF5_0.csv$"))
 tail(pureLogic)
 
 df <- merge(aper, pureLogic)
