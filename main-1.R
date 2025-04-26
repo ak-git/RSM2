@@ -1,22 +1,8 @@
 library('scales')
-mmBase <- 7
+mmBase <- 6
 
-start <- 73.76
-begin <- 73.76
-begin <- begin + 2.42
-begin <- begin + 2.43
-begin <- begin + 2.42
-begin <- begin + 2.42
-begin <- begin + 2.43
-begin <- begin + 2.43
-begin <- begin + 2.42
-begin <- begin + 2.44
-begin <- begin + 2.42
-begin <- begin + 2.42
-begin <- begin + 2.42
-begin <- begin + 2.43
-begin <- begin + 2.43
-interval <- (start * 1000 + 1):((begin + 2) * 1000)
+interval <- (57 * 1000):((153.475 + 3.7) * 1000)
+interval <- (103.17 * 1000):((153.475 + 3.7) * 1000)
 
 source(file = 'read.R')
 
