@@ -53,15 +53,15 @@ colnames(outREnd) <- c('TIME', 'R1', 'R2')
 
 out <- data.frame(outRSrt$TIME[1], outPosition,
                   outRSrt$R1[1], outRSrt$R2[1],
-                  round(mean(abs(outREnd$R1 - outRSrt$R1)) * sign(outREnd$R1[1] - outRSrt$R1[1]), digits = 4),
-                  round(mean(abs(outREnd$R2 - outRSrt$R2)) * sign(outREnd$R2[1] - outRSrt$R2[1]), digits = 4),
+                  round(mean(abs(outREnd$R1 - outRSrt$R1)) * sign(median(outREnd$R1 - outRSrt$R1)), digits = 4),
+                  round(mean(abs(outREnd$R2 - outRSrt$R2)) * sign(median(outREnd$R2 - outRSrt$R2)), digits = 4),
                   dHmm
 )
 out[nrow(out) + 1, ] <- c(
   rev(outRSrt$TIME)[1], outPosition,
   rev(outREnd$R1)[1], rev(outREnd$R2)[1],
-  round(mean(abs(outREnd$R1 - outRSrt$R1)) * sign(outREnd$R1[1] - outRSrt$R1[1]), digits = 4),
-  round(mean(abs(outREnd$R2 - outRSrt$R2)) * sign(outREnd$R2[1] - outRSrt$R2[1]), digits = 4),
+  round(mean(abs(outREnd$R1 - outRSrt$R1)) * sign(median(outREnd$R1 - outRSrt$R1)), digits = 4),
+  round(mean(abs(outREnd$R2 - outRSrt$R2)) * sign(median(outREnd$R2 - outRSrt$R2)), digits = 4),
   dHmm
 )
 colnames(out) <- c('TIME', 'POSITION', 'R1_START', 'R2_START', 'R1_DIFF', 'R2_DIFF', 'DH_MM')
