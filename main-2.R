@@ -30,7 +30,7 @@ plot(df$TIME, df$R2, type = 'l', xlab = xlab, col = col[2], lwd = 2,
 plot(df$TIME, df$POSITION, type = 'l', xlab = xlab, col = col[3], lwd = 2, ylab = 'POSITION, mm')
 
 step <- 205
-startPlate <- 870
+startPlate <- 860
 outPosition <- median(df$POSITION[1:1000])
 dHmm <- round(max(df$POSITION[1000:2000]) - min(df$POSITION[1000:2000]), digits = 3)
 outRSrt <- sapply(2:12,
@@ -44,7 +44,7 @@ colnames(outRSrt) <- c('TIME', 'R1', 'R2')
 
 outREnd <- sapply(2:12,
                   function(x) {
-                    center <- x * step + startPlate + 70
+                    center <- x * step + startPlate + 90
                     c(df$TIME[center], df$R1[center], df$R2[center])
                   }
 )
