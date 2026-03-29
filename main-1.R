@@ -50,7 +50,7 @@ paste("norm D =", round(normD, 3))
 
 
 layer2Apparent <- function(rho1, rho2, hmm, smm, lmm) {
-  MAX_SUM <- 4096
+  MAX_SUM <- 1024
 
   MP <- function(ls, n, h) {
     ls^2 + (4 * n * h)^2 -> result
@@ -91,20 +91,38 @@ misfit <- function(rho1, hmm) {
   return(normResult)
 }
 
-library(ggplot2)
+# 1. Определяем целевую функцию
+P_func <- function(x) {
+  return(misfit(rho1 = x[1], hmm = x[2])^2)
+}
 
-# Создаем data.frame
-grid <- expand.grid(x = exp(seq(log(rho[1] / 10.0), log(rho[1]), length.out = 30)),
-                    y = exp(seq(log(1.0), log(20.0), length.out = 30)))
+# 2. Запускаем оптимизацию
+# par — начальные значения (угадка)
+# fn — функция невязки
+result <- optim(par = c(rho[1], mmBase * 5), fn = P_func, method = "Nelder-Mead")
+
+m <- list()
+m$rho1 <- result$par[1]
+m$h <- result$par[2]
+m$value <- result$value
+
+# 3. Смотрим результат
+paste("rho =", round(m$rho1, 3), "h =", round(m$h, 3),
+      "misfit =", round(misfit(rho1 = m$rho1, hmm = m$h), 5))
+
+library(ggplot2)
+grid <- expand.grid(x = exp(seq(log(rho[1] / 10.0), log(rho[1]), length.out = 10)),
+                    y = exp(seq(log(1.0), log(20.0), length.out = 10)))
 grid$z <- apply(grid, 1, function(row) {
-  misfit(row["x"], row["y"])
+  misfit(row["x"], row["y"])^2
 })
 
 # Визуализация с заливкой контуров
 ggplot(grid, aes(x, y, z = z)) +
   geom_contour_filled() +
-  scale_x_log10() + scale_y_log10() +
+  scale_x_log10() +
+  scale_y_log10() +
   geom_contour(color = "white", alpha = 0.2) + # Добавляем тонкие линии
-  annotate("point", x = 1, y = 20, color = "red", size = 3) + # Глобальный минимум
+  annotate("point", x = m$rho1, y = m$h, color = "red", size = 3) + # Глобальный минимум
   theme_minimal() +
   labs(title = "Level Plot", fill = "Value")
