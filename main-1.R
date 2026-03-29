@@ -93,16 +93,16 @@ misfit <- function(rho1, hmm) {
 
 stab <- function(rho1, hmm) {
   r <- (log(2.0 * rho[1] - rho1) - log(rho1))^2
-  h <- (log(2.0 * 25.0 - hmm) - log(hmm))^2
+  h <- (log(2.0 * mmBase * 5 - hmm) - log(hmm))^2
   return(r + h)
 }
 
 
-alpha <- 0.0036
+alpha <- 0.0027
 
 # 1. Определяем целевую функцию
 P_func <- function(x) {
-  if (0 < x[1] && x[1] < max(rho[1], rho[2]) && 0 < x[2] && x[2] < mmBase * 5) {
+  if (0 < x[1] && x[1] < min(rho[1], rho[2]) * 2 && 0 < x[2] && x[2] < mmBase * 5) {
     return(misfit(rho1 = x[1], hmm = x[2])^2 + alpha * stab(rho1 = x[1], hmm = x[2]))
   }
   else {
@@ -113,7 +113,7 @@ P_func <- function(x) {
 # 2. Запускаем оптимизацию
 # par — начальные значения (угадка)
 # fn — функция невязки
-result <- optim(par = c(rho[1], mmBase * 3), fn = P_func, method = "Nelder-Mead")
+result <- optim(par = c(min(rho[1], rho[2]), mmBase * 3), fn = P_func, method = "Nelder-Mead")
 
 m <- list()
 m$rho1 <- result$par[1]
@@ -125,8 +125,8 @@ paste("rho =", round(m$rho1, 3), "h =", round(m$h, 3),
       "misfit =", round(misfit(rho1 = m$rho1, hmm = m$h), 3))
 
 library(ggplot2)
-grid <- expand.grid(x = exp(seq(log(0.1), log(2.0), length.out = 30)),
-                    y = exp(seq(log(1.0), log(20.0), length.out = 30)))
+grid <- expand.grid(x = exp(seq(log(0.1), log(min(rho[1], rho[2]) * 1.5), length.out = 20)),
+                    y = exp(seq(log(1.0), log(mmBase * 4), length.out = 20)))
 grid$z <- apply(grid, 1, function(row) {
   alpha * stab(row["x"], row["y"])
 })
