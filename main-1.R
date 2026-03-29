@@ -91,9 +91,23 @@ misfit <- function(rho1, hmm) {
   return(normResult)
 }
 
+stab <- function(rho1, hmm) {
+  r <- (log(2.0 * rho[1] - rho1) - log(rho1))^2
+  h <- (log(2.0 * 25.0 - hmm) - log(hmm))^2
+  return(r + h)
+}
+
+
+alpha <- 0.0036
+
 # 1. Определяем целевую функцию
 P_func <- function(x) {
-  return(misfit(rho1 = x[1], hmm = x[2])^2)
+  if (x[1] > 0 && x[2] > 0) {
+    return(misfit(rho1 = x[1], hmm = x[2])^2 + alpha * stab(rho1 = x[1], hmm = x[2]))
+  }
+  else {
+    return(Inf)
+  }
 }
 
 # 2. Запускаем оптимизацию
@@ -108,13 +122,13 @@ m$value <- result$value
 
 # 3. Смотрим результат
 paste("rho =", round(m$rho1, 3), "h =", round(m$h, 3),
-      "misfit =", round(misfit(rho1 = m$rho1, hmm = m$h), 5))
+      "misfit =", round(misfit(rho1 = m$rho1, hmm = m$h), 3))
 
 library(ggplot2)
-grid <- expand.grid(x = exp(seq(log(rho[1] / 10.0), log(rho[1]), length.out = 10)),
-                    y = exp(seq(log(1.0), log(20.0), length.out = 10)))
+grid <- expand.grid(x = exp(seq(log(0.1), log(2.0), length.out = 30)),
+                    y = exp(seq(log(1.0), log(20.0), length.out = 30)))
 grid$z <- apply(grid, 1, function(row) {
-  misfit(row["x"], row["y"])^2
+  alpha * stab(row["x"], row["y"])
 })
 
 # Визуализация с заливкой контуров
@@ -126,3 +140,28 @@ ggplot(grid, aes(x, y, z = z)) +
   annotate("point", x = m$rho1, y = m$h, color = "red", size = 3) + # Глобальный минимум
   theme_minimal() +
   labs(title = "Level Plot", fill = "Value")
+
+grid$z <- apply(grid, 1, function(row) {
+  misfit(row["x"], row["y"])^2
+})
+ggplot(grid, aes(x, y, z = z)) +
+  geom_contour_filled() +
+  scale_x_log10() +
+  scale_y_log10() +
+  geom_contour(color = "white", alpha = 0.2) + # Добавляем тонкие линии
+  annotate("point", x = m$rho1, y = m$h, color = "red", size = 3) + # Глобальный минимум
+  theme_minimal() +
+  labs(title = "Level Plot", fill = "Value")
+
+grid$z <- apply(grid, 1, function(row) {
+  P_func(c(row["x"], row["y"]))
+})
+ggplot(grid, aes(x, y, z = z)) +
+  geom_contour_filled() +
+  scale_x_log10() +
+  scale_y_log10() +
+  geom_contour(color = "white", alpha = 0.2) + # Добавляем тонкие линии
+  annotate("point", x = m$rho1, y = m$h, color = "red", size = 3) + # Глобальный минимум
+  theme_minimal() +
+  labs(title = "Level Plot", fill = "Value")
+
