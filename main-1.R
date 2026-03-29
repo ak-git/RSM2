@@ -102,7 +102,7 @@ alpha <- 0.0036
 
 # 1. Определяем целевую функцию
 P_func <- function(x) {
-  if (x[1] > 0 && x[2] > 0) {
+  if (0 < x[1] && x[1] < max(rho[1], rho[2]) && 0 < x[2] && x[2] < mmBase * 5) {
     return(misfit(rho1 = x[1], hmm = x[2])^2 + alpha * stab(rho1 = x[1], hmm = x[2]))
   }
   else {
@@ -113,7 +113,7 @@ P_func <- function(x) {
 # 2. Запускаем оптимизацию
 # par — начальные значения (угадка)
 # fn — функция невязки
-result <- optim(par = c(rho[1], mmBase * 5), fn = P_func, method = "Nelder-Mead")
+result <- optim(par = c(rho[1], mmBase * 3), fn = P_func, method = "Nelder-Mead")
 
 m <- list()
 m$rho1 <- result$par[1]
