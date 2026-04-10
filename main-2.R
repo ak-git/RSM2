@@ -80,7 +80,7 @@ misfit <- function(rho1, hmm) {
 }
 
 stab <- function(rho1, hmm) {
-  r <- (log(2.0 * rho[1] - rho1) - log(rho1))^2
+  r <- (log(2.0 * min(rho) - rho1) - log(rho1))^2
   h <- (log(2.0 * mmBase * 5 - hmm) - log(hmm))^2
   return(r + h)
 }
@@ -90,7 +90,7 @@ alpha <- 0.003
 
 # 1. Определяем целевую функцию
 P_func <- function(x) {
-  if (0 < x[1] && x[1] < min(rho[1], rho[2]) * 2 && 0 < x[2] && x[2] < mmBase * 5) {
+  if (0 < x[1] && x[1] < min(rho) * 2 && 0 < x[2] && x[2] < mmBase * 5) {
     return(misfit(rho1 = x[1], hmm = x[2])^2 + alpha * stab(rho1 = x[1], hmm = x[2]))
   }
   else {
@@ -101,7 +101,7 @@ P_func <- function(x) {
 # 2. Запускаем оптимизацию
 # par — начальные значения (угадка)
 # fn — функция невязки
-result <- optim(par = c(min(rho[1], rho[2]), mmBase * 3), fn = P_func, method = "Nelder-Mead")
+result <- optim(par = c(min(rho), mmBase * 3), fn = P_func, method = "Nelder-Mead")
 
 m <- list()
 m$rho1 <- result$par[1]
