@@ -25,12 +25,15 @@ layer1InverseRelError <- function(smm, lmm, dLmm) {
   return((1.0 + x) / (x * (1.0 - x)) * dL / L)
 }
 
-drho <- c(rho[1] * layer1InverseRelError(mmBase, mmBase * 3.0, 0.1), rho[2] * layer1InverseRelError(mmBase * 5.0, mmBase * 3.0, 0.1))
-paste("drho =", round(drho, 3), collapse = "; ")
+absErrRho <- c(rho[1] * layer1InverseRelError(mmBase, mmBase * 3.0, 0.1), rho[2] * layer1InverseRelError(mmBase * 5.0, mmBase * 3.0, 0.1))
+paste("abs error rho =", round(absErrRho, 3), collapse = "; ")
 
-normD <- norm((log(rho + drho) - log(rho)), type = "2")
-paste("norm D =", round(normD, 3))
+d <- function(rho) {
+  return(log(rho))
+}
 
+normErrorD <- norm((d(rho + absErrRho) - d(rho)), type = "2")
+paste("norm error D =", round(normErrorD, 3))
 
 layer2Apparent <- function(rho1, rho2, hmm, smm, lmm) {
   MAX_SUM <- 1024
@@ -67,10 +70,12 @@ layer2Model <- function(rho1, hmm) {
   return(Am)
 }
 
-paste("A(Ohm-m, mm) =", round(layer2Model(1, 10.0), 3), collapse = "; ")
+A <- function(rho1, hmm) {
+  return(log(layer2Model(rho1, hmm)))
+}
 
 misfit <- function(rho1, hmm) {
-  normResult <- norm(log(layer2Model(rho1, hmm)) - log(rho), type = "2")
+  normResult <- norm(A(rho1, hmm) - log(rho), type = "2")
   return(normResult)
 }
 
@@ -81,7 +86,7 @@ stab <- function(rho1, hmm) {
 }
 
 
-alpha <- 0.0027
+alpha <- 0.003
 
 # 1. Определяем целевую функцию
 P_func <- function(x) {

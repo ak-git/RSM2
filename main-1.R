@@ -1,8 +1,8 @@
 library('scales')
 mmBase <- 6
 
-interval <- (0 * 1000):(203 * 1000)
-interval <- (201 * 1000):(202 * 1000)
+interval <- (0 * 1000):(77 * 1000)
+interval <- (70 * 1000):(77 * 1000)
 
 source(file = 'read.R')
 
@@ -16,3 +16,4 @@ plot(df$TIME, df$R2, type = 'l', xlab = xlab, col = col[2], lwd = 2,
 plot(df$TIME, df$POSITION, type = 'l', xlab = xlab, col = col[3], lwd = 2, ylab = 'POSITION, mm')
 
 R <- c(mean(df$R1), mean(df$R2))
+paste("R =", round(R, 3), collapse = "; ")
