@@ -26,7 +26,7 @@ begin <- 134.22
 begin <- 138.12
 begin <- 142.015
 begin <- 145.92
-begin <- 149.78
+# begin <- 149.78
 # begin <- 153.475
 
 baseREndInterval <- 3.72 * 1000
@@ -121,4 +121,11 @@ paste(baseRStart$TIME[1], outPosition,
       round(baseRStart$R1[1], digits = 3), round(baseRStart$R2[1], digits = 3),
       round(mean(abs(outREnd$R1 - outRSrt$R1)), digits = 4),
       round(mean(abs(outREnd$R2 - outRSrt$R2)), digits = 4),
+      round(dHmm, digits = 3),
+      sep = ", ")
+paste(baseRStart$TIME[1], outPosition,
+      round(baseREnd$R1[1], digits = 3), round(baseREnd$R2[1], digits = 3),
+      round(baseREnd2$R1 - baseREnd$R1, digits = 4),
+      round(baseREnd2$R2 - baseREnd$R2, digits = 4),
+      round(dHmm * 2, digits = 3),
       sep = ", ")
